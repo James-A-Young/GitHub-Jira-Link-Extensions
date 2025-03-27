@@ -53,6 +53,6 @@ jobs:
     - name: Create Release
       if: github.ref == 'refs/heads/main'
       run: |
-            gh release create "build/${{env.VERSION}}" --generate-notes --prerelease --target "${{ steps.vars.outputs.sha_long }}" --title "${{env.VERSION}}" "${{ env.VERSION }}.zip#${{env.VERSION}} package" 
+            gh release create "build/${{env.VERSION}}" --generate-notes --prerelease --target "${{ steps.vars.outputs.sha_long }}" --title "${{env.VERSION}}" "github-jira-linker-${{ env.VERSION }}.zip#${{env.VERSION}} package" 
       env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
