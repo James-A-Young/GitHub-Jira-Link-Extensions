@@ -30,7 +30,7 @@ jobs:
 
     - name: Build project
       working-directory: chrome
-      run: npm run build --prefix chrome
+      run: npm run build
 
     - name: Create zip file
       working-directory: chrome
