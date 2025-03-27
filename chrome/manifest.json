@@ -14,7 +14,8 @@
         {
         "js": ["dist/content.js"],
         "matches": [
-            "https://github.com/SynaneticsLtd/*/pull/*"
+            "https://github.com/*/pull/*",
+            "https://github.com/*/issue/*"
         ]
         }
     ],
