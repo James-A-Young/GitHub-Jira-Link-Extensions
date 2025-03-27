@@ -33,7 +33,6 @@ jobs:
       run: npm run build
 
     - name: Create zip file
-      working-directory: chrome
       run: |
         mkdir -p chrome-build
         cp -r chrome/* chrome-build/
@@ -49,4 +48,4 @@ jobs:
         release_name: GitHub Jira Linker v${{ env.VERSION }}
         draft: false
         prerelease: false
-        files: chrome/github-jira-linker-${{ env.VERSION }}.zip
+        files: github-jira-linker-${{ env.VERSION }}.zip
