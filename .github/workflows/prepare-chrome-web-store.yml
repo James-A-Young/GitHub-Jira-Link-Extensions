@@ -48,7 +48,8 @@ jobs:
         mkdir -p chrome-build
         cp -r chrome/* chrome-build/
         rm -rf chrome-build/node_modules chrome-build/src chrome-build/package-lock.json chrome-build/package.json
-        zip -r github-jira-linker-${{ env.VERSION }}.zip chrome-build
+        cd chrome-build
+        zip -r ../github-jira-linker-${{ env.VERSION }}.zip .
         ls
 
     - name: Create Release
