@@ -1,0 +1,52 @@
+name: Prepare Chrome Web Store Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '23'
+
+    - name: Install dependencies
+      working-directory: chrome
+      run: npm install
+
+    - name: Extract version from manifest.json
+      id: get-version
+      run: |
+        VERSION=$(jq -r '.version' chrome/manifest.json)
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Build project
+      working-directory: chrome
+      run: npm run build --prefix chrome
+
+    - name: Create zip file
+      working-directory: chrome
+      run: |
+        mkdir -p chrome-build
+        cp -r chrome/* chrome-build/
+        rm -rf chrome-build/node_modules chrome-build/src package-lock.json package.json
+        zip -r github-jira-linker-${{ env.VERSION }}.zip chrome-build
+
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ env.VERSION }}
+        release_name: GitHub Jira Linker v${{ env.VERSION }}
+        draft: false
+        prerelease: false
+        files: chrome/github-jira-linker-${{ env.VERSION }}.zip
