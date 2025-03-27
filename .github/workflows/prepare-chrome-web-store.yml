@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: write
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -12,6 +16,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Set outputs
+      id: vars
+      run: |
+        echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        echo "sha_long=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -39,13 +50,9 @@ jobs:
         rm -rf chrome-build/node_modules chrome-build/src package-lock.json package.json
         zip -r github-jira-linker-${{ env.VERSION }}.zip chrome-build
 
-    - name: Create GitHub Release
-      uses: actions/create-release@v1
+    - name: Create Release
+      if: github.ref == 'refs/heads/main'
+      run: |
+            gh release create "build/${{env.VERSION}}" --generate-notes --prerelease --target "${{ steps.vars.outputs.sha_long }}" --title "${{env.VERSION}}" "${{ env.VERSION }}.zip#${{env.VERSION}} package" 
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ env.VERSION }}
-        release_name: GitHub Jira Linker v${{ env.VERSION }}
-        draft: false
-        prerelease: false
-        files: github-jira-linker-${{ env.VERSION }}.zip
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
