@@ -47,7 +47,7 @@ jobs:
       run: |
         mkdir -p chrome-build
         cp -r chrome/* chrome-build/
-        rm -rf chrome-build/node_modules chrome-build/src chrome-build/package-lock.json chrome-build/package.json
+        rm -rf chrome-build/node_modules chrome-build/src chrome-build/package-lock.json chrome-build/package.json chrome-build/tsconfig.json
         cd chrome-build
         zip -r ../github-jira-linker-${{ env.VERSION }}.zip .
         ls
