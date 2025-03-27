@@ -1,0 +1,24 @@
+{
+    "name": "GitHub <> Jira Links",
+    "description": "Extension to make jira ticket references in GitHub PRs link to jira",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+      "default_popup": "hello.html",
+      "default_icon": "logo128.png"
+    },
+    "options_ui": {
+    "page": "hello.html",
+    "open_in_tab": false},
+    "content_scripts": [
+        {
+        "js": ["dist/content.js"],
+        "matches": [
+            "https://github.com/SynaneticsLtd/*/pull/*"
+        ]
+        }
+    ],
+    "permissions": [
+        "storage"
+    ]
+  }
