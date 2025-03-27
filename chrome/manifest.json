@@ -1,7 +1,7 @@
 {
     "name": "GitHub <> Jira Links",
-    "description": "Extension to make jira ticket references in GitHub PRs link to jira",
-    "version": "1.0",
+    "description": "Extension to make jira ticket references in GitHub Issues and PRs link to jira",
+    "version": "1.0.0.0",
     "manifest_version": 3,
     "action": {
       "default_popup": "hello.html",
